@@ -3,7 +3,7 @@ import  { useState } from 'react';
 const SearchMissingPersons = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearch = (e) => {
+  const handleSearch = () => {
     e.preventDefault();
     console.log("Searching for: ", searchTerm);
     // Implement the search functionality here.
