@@ -3,25 +3,25 @@ const AboutUs = () => {
     {
       name: "Kartik",
       role: "Frontend Developer",
-      image: "/static/images/kartik.jpg",
+      image: "../public/kartik.jpg",
       github: "https://github.com/kartik-212004",
     },
     {
       name: "Devashish",
       role: "Backend Developer",
-      image: "/static/images/devashish.jpg",
+      image: "../public/deva.jpg",
       github: "https://github.com/Devashish2112",
     },
     {
       name: "Akshat",
       role: "Ai Model Developer",
-      image: "/static/images/akshat.jpg",
+      image: "../public/akshat.jpg",
       github: "https://github.com/aks-lodhi07",
     },
     {
       name: "Shivansh",
-      role: "PPt Developer",
-      image: "/static/images/shivansh.jpg",
+      role: "Ui/Ux Developer",
+      image: "../public/shiva.jpg",
       github: "https://github.com/ShivanshPokhriyal",
     },
   ]
@@ -46,7 +46,7 @@ const AboutUs = () => {
               <img
                 src={member.image}
                 alt={member.name}
-                className="w-32 h-32 mx-auto rounded-full shadow-lg mb-6 transition-transform duration-500 hover:rotate-6"
+                className="w-32 h-32 object-cover mx-auto rounded-full shadow-lg mb-6 transition-transform duration-500 hover:rotate-6"
               />
               <h2 className="text-2xl font-semibold mb-2">{member.name}</h2>
               <p className="text-gray-700 font-medium">{member.role}</p>

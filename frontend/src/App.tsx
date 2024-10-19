@@ -15,7 +15,7 @@ function App() {
             Real-time Face Recognition Surveillance
           </h2>
           <p className="text-lg mt-4">
-            Monitor and identify missing persons at Simhastha Ujjain
+            Monitor and identify missing persons and objects
           </p>
         </header>
 
@@ -33,9 +33,7 @@ function App() {
         {/* Navigation Bar */}
         <nav className="bg-blue-600 p-4 text-white fixed bottom-0 left-0 right-0">
           <div className="container mx-auto flex justify-between">
-            <h1 className="text-2xl font-bold">
-              Simhastha Surveillance System
-            </h1>
+            <h1 className="text-2xl font-bold">Surveillance System</h1>
             <ul className="flex space-x-4">
               <li>
                 <a href="/" className="hover:underline">
@@ -54,7 +52,7 @@ function App() {
               </li>
               <li>
                 <a href="/about" className="hover:underline">
-                  Contact
+                  About
                 </a>
               </li>
             </ul>
