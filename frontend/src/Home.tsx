@@ -2,17 +2,14 @@ const Home = () => {
   return (
     <div className="bg-gray-100 min-h-screen p-10">
       <div className="container mx-auto text-center py-12">
-        {/* Welcome Section */}
         <h1 className="text-5xl font-bold text-blue-600 mb-6">
           Welcome to the Person & Object Identification System
         </h1>
         <p className="text-lg text-gray-700 mb-8">
           A cutting-edge solution for real-time identification and monitoring of individuals and objects using advanced recognition technologies.
         </p>
-
-        {/* Features Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Feature 1 */}
+         
           <div className="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105">
             <h2 className="text-2xl font-semibold text-blue-500 mb-4">
               Real-Time Identification
@@ -21,8 +18,6 @@ const Home = () => {
               Monitor and identify people and objects in real-time using state-of-the-art face and object recognition technologies.
             </p>
           </div>
-
-          {/* Feature 2 */}
           <div className="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105">
             <h2 className="text-2xl font-semibold text-blue-500 mb-4">
               High Accuracy & Security
@@ -31,8 +26,6 @@ const Home = () => {
               Ensures high accuracy in detection and identification while maintaining secure data processing and privacy.
             </p>
           </div>
-
-          {/* Feature 3 */}
           <div className="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105">
             <h2 className="text-2xl font-semibold text-blue-500 mb-4">
               Scalable & Efficient
@@ -42,8 +35,6 @@ const Home = () => {
             </p>
           </div>
         </div>
-
-        {/* Call to Action */}
         <div className="mt-16">
           <h2 className="text-4xl font-bold text-blue-600 mb-4">
             Join Us in Enhancing Identification Technologies

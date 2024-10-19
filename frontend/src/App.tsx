@@ -9,7 +9,6 @@ function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-gray-100">
-        {/* Header Section */}
         <header className="bg-blue-500 text-white text-center py-12 flex-shrink-0">
           <h2 className="text-4xl font-semibold">
             Real-time Face Recognition Surveillance
@@ -19,7 +18,6 @@ function App() {
           </p>
         </header>
 
-        {/* Main Content */}
         <main className="container mx-auto py-10 flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -29,8 +27,6 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
-
-        {/* Navigation Bar */}
         <nav className="bg-blue-600 p-4 text-white fixed bottom-0 left-0 right-0">
           <div className="container mx-auto flex justify-between">
             <h1 className="text-2xl font-bold">Surveillance System</h1>
