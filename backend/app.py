@@ -1,18 +1,18 @@
-from flask import Flask
-from routes.face_recognition_routes import recognition_bp
-import os
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# Create necessary directories if they don't exist
-os.makedirs('./uploads', exist_ok=True)
+# Dummy data for the four individuals
+surveillance_feed = [
+    {'name': 'Kartik', 'image_url': '/static/images/kartik.jpg'},
+    {'name': 'Shivansh', 'image_url': '/static/images/shivansh.jpg'},
+    {'name': 'Akshat', 'image_url': '/static/images/akshat.jpg'},
+    {'name': 'Devashish', 'image_url': '/static/images/devashish.jpg'}
+]
 
-# Register Blueprints (modularized routes)
-app.register_blueprint(recognition_bp)
-
-@app.route('/')
-def index():
-    return "Face Recognition Surveillance System API"
+@app.route('/api/surveillance', methods=['GET'])
+def get_surveillance_feed():
+    return jsonify({'images': surveillance_feed})
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True)
