@@ -1,20 +1,9 @@
-# Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container
-COPY requirements.txt .
-
-# Install the necessary packages
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application code into the container
 COPY . .
 
-# Expose the port the app runs on
-EXPOSE 5000
+RUN pip install --no-cache-dir Flask==2.1.2 Flask-Cors==3.0.10 Pillow==9.0.0 numpy==1.21.6 Werkzeug==2.0.3
 
-# Command to run the application
 CMD ["python", "app.py"]

@@ -10,17 +10,19 @@ app = Flask(__name__)
 CORS(app)
 
 # Define the path to save images
-IMAGE_FOLDER = 'static/images'
-os.makedirs(IMAGE_FOLDER, exist_ok=True)
+UPLOAD_FOLDER = os.path.join('static', 'images')  # Corrected variable name for clarity
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Dummy face detection function
 def detect_faces(image):
     # Here you would implement your face detection logic
     # For demonstration, we'll return a mock response
-    return [{'name': 'Kartik', 'image': f'{IMAGE_FOLDER}/kartik.jpg', 'location': 'Canteen'},
-            {'name': 'Devashish', 'image': f'{IMAGE_FOLDER}/devashish.jpg', 'location': 'Auditorium'},
-            {'name': 'Akshat', 'image': f'{IMAGE_FOLDER}/akshat.jpg', 'location': 'Library'},
-            {'name': 'Shivansh', 'image': f'{IMAGE_FOLDER}/shivansh.jpg', 'location': 'Hallway'}]
+    return [
+        {'name': 'Kartik', 'image': f'static/images/kartik.jpg', 'location': 'Canteen'},
+        {'name': 'Devashish', 'image': f'static/images/devashish.jpg', 'location': 'Auditorium'},
+        {'name': 'Akshat', 'image': f'static/images/akshat.jpg', 'location': 'Library'},
+        {'name': 'Shivansh', 'image': f'static/images/shivansh.jpg', 'location': 'Hallway'}
+    ]
 
 @app.route('/api/detect', methods=['POST'])
 def detect():
@@ -43,8 +45,12 @@ def save_image():
     image_data = data['image'].split(',')[1]  # Get the base64 part
     image = Image.open(io.BytesIO(base64.b64decode(image_data)))
 
-    # Save the image with the name provided
-    image_path = os.path.join(IMAGE_FOLDER, f"{name}.jpg")
+    # Save the image with the name provided in the UPLOAD_FOLDER
+    image_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.jpg")
+    
+    # Ensure the upload folder exists
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    
     image.save(image_path)
 
     return jsonify({'message': 'Image saved successfully', 'path': image_path})
