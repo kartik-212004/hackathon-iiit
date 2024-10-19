@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import SurveillanceFeed from "./SurveillanceFeed"
+import Surveillance from "./SurveillanceFeed"
 import SearchMissingPersons from "./SearchMissingPersons"
 import Home from "./Home"
 import NotFound from "./NotFound"
@@ -23,7 +23,7 @@ function App() {
         <main className="container mx-auto py-10 flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/surveillance" element={<SurveillanceFeed />} />
+            <Route path="/surveillance" element={<Surveillance/>} />
             <Route path="/search" element={<SearchMissingPersons />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="*" element={<NotFound />} />
