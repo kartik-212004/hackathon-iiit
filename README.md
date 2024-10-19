@@ -49,19 +49,22 @@ face-recognition-system/
 │   ├── src/
 │   │   ├── components/
 │   │   ├── pages/
-│   │   ├── App.js
-│   │   └── index.js
+│   │   ├── App.tsx
+│   │   └── Home.tsx
+│   │   └── Main.tsx
+│   │   └── navbar.tsx
+│   │   └── NotFound.tsx
+│   │   └── ReportForm.tsx
+│   │   └── SearchMissing.tsx
+│   │   └── Survillance.tsx
 │   ├── tailwind.config.js
 │   └── package.json
 │
 ├── backend/
-│   ├── app.py
-│   ├── models/
-│   ├── routes/
-│   └── requirements.txt
-│
-└── database/
-    └── database-setup.sql (or MongoDB setup scripts)
+    ├── app.py
+    ├── models/
+    ├── static/Images
+    └── requirements.tx
 ```
 
 ## ⚡ Quick Start
@@ -90,6 +93,7 @@ face-recognition-system/
      ```bash
      cd frontend
      npm install
+     npm run dev
      ```
 
 4. **Run the Application**:
@@ -110,20 +114,23 @@ You can also run the entire system using Docker for seamless deployment:
 
 1. **Build and run the Docker containers**:
    ```bash
-   docker pull kartik200421/hackathon-iiit
+   cd backend
+   docker build -t flask-backend
+   docker run -p 5000:5000 flask-backend
    ```
 
-2. Visit `http://localhost:3000` for the frontend and `http://localhost:5000` for the backend.
+2. Visit `http://localhost:3000` for the frontend and `http://172.17.0.2:5000/` for the backend.
 
 ## 📷 Screenshots
+![Example Image](screenshots/home.png)
 
-### User Interface
+![Example Image](screenshots/search.png)
+![Example Image](screenshots/about.png)
 
-![UI](https://user-images.githubusercontent.com/your-frontend-ui-image.png)
 
 ### Face Recognition in Action
 
-![Recognition](https://user-images.githubusercontent.com/your-recognition-image.png)
+![Face Detection](screenshots/FaceRecognition.png)
 
 ## 🧠 How It Works
 
@@ -136,7 +143,6 @@ You can also run the entire system using Docker for seamless deployment:
 
 - **Real-time video stream integration** for live surveillance.
 - **Alert System**: Notify authorities when a person is identified.
-- **Scalability**: Using Kubernetes for scaling during mass gatherings.
 
 ## 🤝 Contributions
 
