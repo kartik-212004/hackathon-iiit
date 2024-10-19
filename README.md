@@ -3,7 +3,7 @@
 
 ![Face Recognition](https://user-images.githubusercontent.com/your-image-link-here.jpg)
 
-> **An AI-powered face recognition system for the Ujjain Police Department, designed for real-time surveillance and locating missing persons or items during the Simhastha Ujjain festival.**
+> **An AI-powered face recognition system, designed for real-time surveillance and locating missing persons or items **
 
 ![GitHub stars](https://img.shields.io/github/stars/kartik-212004/hackathon-iiit?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/kartik-212004/hackathon-iiit?style=social)
@@ -16,7 +16,6 @@
 - **Surveillance and monitoring** for missing persons or items during mass gatherings.
 - **Easy-to-use web interface** built with React and Tailwind CSS.
 - **Robust backend API** using Flask and Python.
-- **Scalable and deployable via Docker** for ease of setup.
 
 ## 🚀 Demo
 
@@ -37,11 +36,8 @@
 - **OpenCV** for handling image and video processing
 - **Python** as the main backend language
 
-### Database:
-- **SQLite** or **MongoDB** (Depending on your setup) for storing known faces and data
-
 ### Deployment:
-- **Docker** 🐳 for containerization and deployment
+- **Docker** 🐳 for containerization of Backend
 
 ## 📁 Project Structure
 
@@ -114,7 +110,7 @@ You can also run the entire system using Docker for seamless deployment:
 
 1. **Build and run the Docker containers**:
    ```bash
-   docker-compose up --build
+   docker pull kartik200421/hackathon-iiit
    ```
 
 2. Visit `http://localhost:3000` for the frontend and `http://localhost:5000` for the backend.
@@ -133,15 +129,8 @@ You can also run the entire system using Docker for seamless deployment:
 
 1. **Face Registration**: Known persons’ images are uploaded and stored in the system for future recognition.
 2. **Real-time Face Detection**: The system captures video feeds or images to detect faces.
-3. **Comparison and Recognition**: The detected face is compared with known faces in the database. If a match is found, the system returns the person's identity.
 
-## 📚 API Endpoints
 
-| Method | Endpoint           | Description                    |
-|--------|--------------------|--------------------------------|
-| POST   | `/recognize`        | Upload an image to recognize faces |
-| GET    | `/known-faces`      | List all known registered faces |
-| POST   | `/register-face`    | Register a new known face with an image |
 
 ## 🏗️ Future Improvements
 
