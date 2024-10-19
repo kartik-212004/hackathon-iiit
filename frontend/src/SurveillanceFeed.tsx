@@ -1,16 +1,16 @@
-// src/components/Surveillance.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 interface Face {
   name: string;
   image: string;
+  location: string; // Location field for where the person was detected
 }
 
 const Surveillance: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [faces, setFaces] = useState<Face[]>([]);
+  const [faces, setFaces] = useState<Face[]>([]); // Array to store detected faces
 
   useEffect(() => {
     const initCamera = async () => {
@@ -38,9 +38,18 @@ const Surveillance: React.FC = () => {
         const imageData = canvas.toDataURL('image/png');
 
         try {
-          const response = await axios.post('http://localhost:5000/api/detect', { image: imageData });
-          if (response.data.faces.length > 0) {
-            setFaces(response.data.faces);
+          const response = await axios.post('http://localhost:5000/detect', { image: imageData });
+          
+          if (response.data.length > 0) {
+            // Filter out already detected faces
+            const newFaces = response.data.filter((face: Face) =>
+              !faces.some(existingFace => existingFace.name === face.name)
+            );
+
+            // Update state only with new faces
+            if (newFaces.length > 0) {
+              setFaces((prevFaces) => [...prevFaces, ...newFaces]);
+            }
           }
         } catch (error) {
           console.error('Error capturing face:', error);
@@ -55,7 +64,7 @@ const Surveillance: React.FC = () => {
     }, 2000);
 
     return () => clearInterval(interval); // Cleanup on component unmount
-  }, []);
+  }, [faces]); // Depend on faces to ensure re-render on state change
 
   return (
     <div className="flex">
@@ -66,6 +75,7 @@ const Surveillance: React.FC = () => {
             <div key={index} className="border p-2 m-2">
               <img src={face.image} alt={`Face ${index}`} className="w-24 h-24 object-cover" />
               <p>{face.name}</p>
+              <p>Location: {face.location}</p> {/* Display the location */}
             </div>
           ))}
         </div>

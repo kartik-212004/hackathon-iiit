@@ -1,82 +1,72 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from PIL import Image
-import io
-import base64
+import cv2
 import numpy as np
 import os
+from datetime import datetime
 
-app = Flask(_name_)
-@app.route('/')
-def home():
-    return "Welcome to the Face Detection API!"
-
-
+app = Flask(__name__)
 CORS(app)
 
-# Define the path to save images
-UPLOAD_FOLDER = os.path.join('static', 'images')  # Corrected variable name for clarity
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# Sample locations
+locations = ["Garden", "Canteen", "Library", "Classroom", "Playground"]
 
-# Dummy face detection function
-def detect_faces(image):
-    # Here you would implement your face detection logic
-    # For demonstration, we'll return a mock response
-    return [
-        {'name': 'Kartik', 'image': f'static/images/kartik.jpg', 'location': 'Canteen'},
-        {'name': 'Devashish', 'image': f'static/images/devashish.jpg', 'location': 'Auditorium'},
-        {'name': 'Akshat', 'image': f'static/images/akshat.jpg', 'location': 'Library'},
-        {'name': 'Shivansh', 'image': f'static/images/shivansh.jpg', 'location': 'Hallway'}
+# To store last seen location for detected persons
+last_seen = {}
+
+# Set to track detected persons during the current session
+detected_persons = set()
+
+# Initialize webcam
+cap = cv2.VideoCapture(0)
+
+@app.route('/detect', methods=['POST'])
+def detect_faces():
+    global detected_persons  # Ensure we maintain this set across multiple requests
+    ret, frame = cap.read()
+    if not ret:
+        return jsonify({"error": "Failed to capture image"}), 500
+
+    # Your existing face detection logic here
+    # Example detected faces, replace with your actual detection logic
+    detected_faces = [
+        {"name": "Kartik", "location": locations[0]},
+        {"name": "Shivansh", "location": locations[1]}
     ]
-
-@app.route('/api/detect', methods=['POST'])
-def detect():
-    data = request.json
-    image_data = data['image'].split(',')[1]  # Get the base64 part
-    image = Image.open(io.BytesIO(base64.b64decode(image_data)))
     
-    # Convert to numpy array
-    image_np = np.array(image)
+    # List to hold faces to be processed (newly detected faces only)
+    new_faces = []
 
-    # Perform face detection
-    faces = detect_faces(image_np)
+    # Check for duplicate entries
+    for face in detected_faces:
+        if face["name"] not in detected_persons:
+            detected_persons.add(face["name"])  # Mark this person as detected
+            new_faces.append(face)  # Add them to the list for further processing
+            last_seen[face["name"]] = face["location"]  # Update last seen location
 
-    return jsonify({'faces': faces})
+    # Save images and return response
+    response_data = []
+    for face in new_faces:
+        # Save the image only for new faces
+        image_path = save_face_image(face["name"], frame)  # Implement this function to save image
+        response_data.append({
+            "name": face["name"],
+            "image": image_path,
+            "last_seen": last_seen[face["name"]],
+            "timestamp": datetime.now().isoformat()
+        })
 
-@app.route('/api/save', methods=['POST'])
-def save_image():
-    data = request.json
-    name = data.get('name')
-    image_data = data['image'].split(',')[1]  # Get the base64 part
-    image = Image.open(io.BytesIO(base64.b64decode(image_data)))
+    return jsonify(response_data)
 
-    # Save the image with the name provided in the UPLOAD_FOLDER
-    image_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{name}.jpg")
+def save_face_image(name, frame):
+    # Create a directory for images if it doesn't exist
+    if not os.path.exists('images'):
+        os.makedirs('images')
     
-    # Ensure the upload folder exists
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-    
-    image.save(image_path)
+    # Save the image with the person's name and timestamp
+    image_path = f'images/{name}_{int(datetime.now().timestamp())}.jpg'
+    cv2.imwrite(image_path, frame)
+    return image_path
 
-    return jsonify({'message': 'Image saved successfully', 'path': image_path})
-
-@app.route('/api/search', methods=['POST'])
-def search_person():
-    data = request.json
-    image_data = data['image'].split(',')[1]  # Get the base64 part
-    image = Image.open(io.BytesIO(base64.b64decode(image_data)))
-    
-    # Convert to numpy array
-    image_np = np.array(image)
-
-    # Perform face detection
-    faces = detect_faces(image_np)
-    
-    if not faces:
-        return jsonify({'error': 'Person not found'}), 404
-    
-    # Assuming we found at least one person
-    return jsonify({'person': faces[0]})  # Return the first detected face for simplicity
-
-if _name_ == '_main_':
-    app.run(debug=True, port=5000)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
