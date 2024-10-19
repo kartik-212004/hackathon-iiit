@@ -1,9 +1,7 @@
 
 # 🎥 Face Recognition Surveillance System 🕵️‍♂️
 
-![Face Recognition](https://user-images.githubusercontent.com/your-image-link-here.jpg)
-
-> **An AI-powered face recognition system, designed for real-time surveillance and locating missing persons or items **
+> **A Face Recognition System, designed for real-time surveillance and locating missing persons or items **
 
 ![GitHub stars](https://img.shields.io/github/stars/kartik-212004/hackathon-iiit?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/kartik-212004/hackathon-iiit?style=social)
@@ -12,7 +10,7 @@
 
 ## ✨ Key Features
 
-- **Real-time face recognition** using advanced AI algorithms.
+- **Real-time face recognition** using ML Model.
 - **Surveillance and monitoring** for missing persons or items during mass gatherings.
 - **Easy-to-use web interface** built with React and Tailwind CSS.
 - **Robust backend API** using Flask and Python.
