@@ -4,13 +4,13 @@ import axios from 'axios';
 interface Face {
   name: string;
   image: string;
-  location: string; // Location field for where the person was detected
+  location: string; // Add location field
 }
 
 const Surveillance: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [faces, setFaces] = useState<Face[]>([]); // Array to store detected faces
+  const [faces, setFaces] = useState<Face[]>([]);
 
   useEffect(() => {
     const initCamera = async () => {
@@ -38,18 +38,15 @@ const Surveillance: React.FC = () => {
         const imageData = canvas.toDataURL('image/png');
 
         try {
-          const response = await axios.post('http://localhost:5000/detect', { image: imageData });
-          
-          if (response.data.length > 0) {
-            // Filter out already detected faces
-            const newFaces = response.data.filter((face: Face) =>
-              !faces.some(existingFace => existingFace.name === face.name)
-            );
+          const response = await axios.post('http://localhost:5000/api/detect', { image: imageData });
+          if (response.data.faces.length > 0) {
+            // Map through the detected faces and set static images
+            const newFaces = response.data.faces.map((face: Face) => ({
+              ...face,
+              image: face.image, // Use the returned image
+            }));
 
-            // Update state only with new faces
-            if (newFaces.length > 0) {
-              setFaces((prevFaces) => [...prevFaces, ...newFaces]);
-            }
+            setFaces((prevFaces) => [...prevFaces, ...newFaces]); // Append new faces to the existing list
           }
         } catch (error) {
           console.error('Error capturing face:', error);
@@ -64,7 +61,7 @@ const Surveillance: React.FC = () => {
     }, 2000);
 
     return () => clearInterval(interval); // Cleanup on component unmount
-  }, [faces]); // Depend on faces to ensure re-render on state change
+  }, []);
 
   return (
     <div className="flex">
@@ -75,7 +72,7 @@ const Surveillance: React.FC = () => {
             <div key={index} className="border p-2 m-2">
               <img src={face.image} alt={`Face ${index}`} className="w-24 h-24 object-cover" />
               <p>{face.name}</p>
-              <p>Location: {face.location}</p> {/* Display the location */}
+              <p>Location: {face.location}</p> {/* Show location */}
             </div>
           ))}
         </div>

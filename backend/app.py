@@ -1,72 +1,52 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import cv2
+from PIL import Image
 import numpy as np
-import os
-from datetime import datetime
+import cv2
+import base64
+import io
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for all routes
 
-# Sample locations
-locations = ["Garden", "Canteen", "Library", "Classroom", "Playground"]
+@app.route('/api/detect', methods=['POST'])
+def detect_face():
+    data = request.get_json()
+    image_data = data['image']
 
-# To store last seen location for detected persons
-last_seen = {}
+    # Decode the image
+    image_data = image_data.split(',')[1]  # Remove metadata
+    image = Image.open(io.BytesIO(base64.b64decode(image_data)))
 
-# Set to track detected persons during the current session
-detected_persons = set()
+    # Convert to numpy array for face detection
+    open_cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
 
-# Initialize webcam
-cap = cv2.VideoCapture(0)
+    # (Your existing face detection logic here)
+    # For example, using a face detection model like Haar Cascades
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    faces = face_cascade.detectMultiScale(open_cv_image, scaleFactor=1.1, minNeighbors=5)
 
-@app.route('/detect', methods=['POST'])
-def detect_faces():
-    global detected_persons  # Ensure we maintain this set across multiple requests
-    ret, frame = cap.read()
-    if not ret:
-        return jsonify({"error": "Failed to capture image"}), 500
-
-    # Your existing face detection logic here
-    # Example detected faces, replace with your actual detection logic
-    detected_faces = [
-        {"name": "Kartik", "location": locations[0]},
-        {"name": "Shivansh", "location": locations[1]}
-    ]
+    detected_faces = []
     
-    # List to hold faces to be processed (newly detected faces only)
-    new_faces = []
+    # Iterate over detected faces
+    for (x, y, w, h) in faces:
+        # Crop the detected face (optional, if you want to send the cropped face image)
+        face_image = open_cv_image[y:y+h, x:x+w]
+        
+        # Convert the cropped face image to base64
+        _, buffer = cv2.imencode('.jpg', face_image)
+        face_base64 = base64.b64encode(buffer).decode('utf-8')
 
-    # Check for duplicate entries
-    for face in detected_faces:
-        if face["name"] not in detected_persons:
-            detected_persons.add(face["name"])  # Mark this person as detected
-            new_faces.append(face)  # Add them to the list for further processing
-            last_seen[face["name"]] = face["location"]  # Update last seen location
+        # Example of how to get the location (replace with your actual location detection logic)
+        location = "Detected Location"  # Replace with actual logic to get the location
 
-    # Save images and return response
-    response_data = []
-    for face in new_faces:
-        # Save the image only for new faces
-        image_path = save_face_image(face["name"], frame)  # Implement this function to save image
-        response_data.append({
-            "name": face["name"],
-            "image": image_path,
-            "last_seen": last_seen[face["name"]],
-            "timestamp": datetime.now().isoformat()
+        detected_faces.append({
+            'name': 'Person',  # Replace with your actual logic to identify the person
+            'image': f"data:image/jpeg;base64,{face_base64}",
+            'location': location
         })
 
-    return jsonify(response_data)
-
-def save_face_image(name, frame):
-    # Create a directory for images if it doesn't exist
-    if not os.path.exists('images'):
-        os.makedirs('images')
-    
-    # Save the image with the person's name and timestamp
-    image_path = f'images/{name}_{int(datetime.now().timestamp())}.jpg'
-    cv2.imwrite(image_path, frame)
-    return image_path
+    return jsonify({'faces': detected_faces})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
