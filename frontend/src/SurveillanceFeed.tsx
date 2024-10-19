@@ -7,7 +7,7 @@ const SurveillanceFeed = () => {
         const fetchSurveillanceData = async () => {
             try {
                 // Fetching surveillance data from the backend
-                const response = await fetch('http://localhost:5000/api/surveillance');
+                const response = await fetch('http://127.0.0.1:5000/api/surveillance');
                 if (!response.ok) throw new Error('Network response was not ok');
                 const result = await response.json();
                 setImages(result.images || []);  // Expecting 'images' array from the backend
