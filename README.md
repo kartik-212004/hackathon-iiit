@@ -122,15 +122,15 @@ You can also run the entire system using Docker for seamless deployment:
 2. Visit `http://localhost:3000` for the frontend and `http://172.17.0.2:5000/` for the backend.
 
 ## 📷 Screenshots
-![Example Image](screenshots/home.png)
+![Example Image](Screenshots/home.png)
 
-![Example Image](screenshots/search.png)
-![Example Image](screenshots/about.png)
+![Example Image](Screenshots/search.png)
+![Example Image](Screenshots/about.png)
 
 
 ### Face Recognition in Action
 
-![Face Detection](screenshots/FaceRecognition.png)
+![Face Detection](Screenshots/FaceRecognition.png)
 
 ## 🧠 How It Works
 
