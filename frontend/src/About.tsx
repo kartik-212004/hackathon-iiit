@@ -4,25 +4,25 @@ const AboutUs = () => {
       name: "Kartik",
       role: "Frontend Developer",
       image: "/static/images/kartik.jpg",
-      github: "",
+      github: "https://github.com/kartik-212004",
     },
     {
       name: "Devashish",
       role: "Backend Developer",
       image: "/static/images/devashish.jpg",
-      github: "",
+      github: "https://github.com/Devashish2112",
     },
     {
       name: "Akshat",
       role: "Ai Model Developer",
       image: "/static/images/akshat.jpg",
-      github: "",
+      github: "https://github.com/aks-lodhi07",
     },
     {
       name: "Shivansh",
       role: "PPt Developer",
       image: "/static/images/shivansh.jpg",
-      github: "",
+      github: "https://github.com/ShivanshPokhriyal",
     },
   ]
 

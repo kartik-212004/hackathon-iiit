@@ -156,9 +156,9 @@ Contributions are always welcome! Feel free to:
 2. Create a feature branch.
 3. Submit a pull request with a detailed description of the changes.
 
-## 👨‍💻 Authors
+## 👨‍💻 Team-
 
-- **Kartik** - [GitHub Profile](https://github.com/kartik-212004)
+- **THE OGs** - [GitHub Profile](https://github.com/kartik-212004)
 
 ## 📄 License
 
@@ -169,4 +169,4 @@ This project is licensed under the **MIT License**.
 ## 🙌 Acknowledgements
 
 - Special thanks to the open-source community for amazing resources.
-- Inspiration from real-world applications of AI in surveillance systems.
+- Inspiration from real-world applications of AI in surveillance systems .
