@@ -115,7 +115,7 @@ You can also run the entire system using Docker for seamless deployment:
 1. **Build and run the Docker containers**:
    ```bash
    cd backend
-   docker build -t flask-backend
+   docker build -t flask-backend .
    docker run -p 5000:5000 flask-backend
    ```
 
